@@ -1,0 +1,11 @@
+.filter-by-year {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#year {    
+    width: 100px;
+    height: 2rem;
+}
