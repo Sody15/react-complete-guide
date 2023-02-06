@@ -10,7 +10,7 @@ const AgeForm = (props) => {
   const clearForm = () => {
     document.getElementById("username").value = "";
     document.getElementById("age").value = "";
-    setUser(null);
+    setUser({ userName: "", age: "" });
   };
 
   const submitHandler = (event) => {
