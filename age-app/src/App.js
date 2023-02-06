@@ -7,12 +7,15 @@ function App() {
   const [users, setUsers] = useState([]);
 
   const addUserHandler = (user) => {
-    setUsers((prevUsers) => [...prevUsers, user]);
+    setUsers((prevUsers) => [
+      ...prevUsers,
+      { ...user, id: Math.random().toString() },
+    ]);
   };
 
   return (
     <main>
-      <AgeForm addUser={addUserHandler} />
+      <AgeForm onAddUser={addUserHandler} />
       <AgeDisplay users={users} />
     </main>
   );

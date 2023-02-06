@@ -1,9 +1,4 @@
-body {
-    background-color: rgb(77,77,77);
-    display: flex;
-    justify-content: center;
-}
-
 main {
-    min-width:500px;
+    max-width:500px;
+    margin: auto;
 }

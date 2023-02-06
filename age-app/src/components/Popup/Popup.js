@@ -1,19 +1,20 @@
-import styles from "./Popup.module.css";
+import Button from "../UI/Button";
+import classes from "./Popup.module.css";
 
 const Popup = (props) => {
-  const clickHandler = () => {
-    props.closePopup(null);
-  };
-
   return (
     <>
-      <div className={`${styles["popup-overlay"]}`}></div>
-      <div className={`${styles.popup}`}>
-        <h2>{props.title}</h2>
-        <p>{props.message}</p>
-        <button type="button" onClick={clickHandler}>
-          Okay
-        </button>
+      <div className={classes.backdrop} onClick={props.closePopup}></div>
+      <div className={classes.popup}>
+        <header>
+          <h2>{props.title}</h2>
+        </header>
+        <div>
+          <p>{props.message}</p>
+        </div>
+        <footer>
+          <Button onClick={props.closePopup}>Okay</Button>
+        </footer>
       </div>
     </>
   );

@@ -3,15 +3,15 @@ import styles from "./AgeDisplay.module.css";
 const AgeDisplay = (props) => {
   return (
     props.users.length > 0 && (
-      <div className={`${styles["age-display"]}`}>
+      <ul className={`${styles["age-display"]}`}>
         {props.users.map((user) => {
           return (
-            <div className={`${styles["age-display__item"]}`}>
-              {user.name} ({user.age} years old)
-            </div>
+            <li key={user.id} className={`${styles["age-display__item"]}`}>
+              {user.userName} ({user.age} years old)
+            </li>
           );
         })}
-      </div>
+      </ul>
     )
   );
 };

@@ -1,13 +1,14 @@
 import styles from "./AgeForm.module.css";
 import { useState } from "react";
 import Popup from "./Popup/Popup";
+import Button from "./UI/Button";
 
 const AgeForm = (props) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ userName: "", age: "" });
   const [error, setError] = useState(null);
 
   const clearForm = () => {
-    document.getElementById("userName").value = "";
+    document.getElementById("username").value = "";
     document.getElementById("age").value = "";
     setUser(null);
   };
@@ -15,34 +16,35 @@ const AgeForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (user && user.age > 0 && user.name) {
-      props.addUser(user);
+    if (user) {
+      if (user.userName.trim().length === 0) {
+        setError({
+          title: "Invalid input",
+          message: "Please enter a valid name and age (non-empty values).",
+        });
+        return;
+      }
+      if (user.age < 1) {
+        setError({
+          title: "Invalid input",
+          message: "Please enter a valid age (>0)",
+        });
+        return;
+      }
+    }
+
+    if (user && user.age > 0 && user.userName) {
+      props.onAddUser(user);
       clearForm();
-      setError(null);
       return;
     }
-
-    if (user.age <= 0) {
-      setError({
-        title: "Invalid input",
-        message: "Please enter a valid age (>0)",
-      });
-      return;
-    }
-
-    setError({
-      title: "Invalid input",
-      message: "Please enter a valid name and age (non-empty values).",
-    });
   };
 
   const nameChange = (event) => {
-    const name = event.target.value;
-    if (name.trim().length > 0) {
-      setUser((prevState) => {
-        return { ...prevState, name };
-      });
-    }
+    const userName = event.target.value;
+    setUser((prevState) => {
+      return { ...prevState, userName };
+    });
   };
 
   const ageChange = (event) => {
@@ -52,26 +54,25 @@ const AgeForm = (props) => {
     });
   };
 
-  const close = () => {
+  const errorHandler = () => {
     setError(null);
   };
 
-  let popup = "";
-  if (error) {
-    popup = (
-      <Popup title={error.title} message={error.message} closePopup={close} />
-    );
-  }
-
   return (
     <>
-      {popup}
+      {error && (
+        <Popup
+          title={error.title}
+          message={error.message}
+          closePopup={errorHandler}
+        />
+      )}
       <form className={`${styles["age-form"]}`} onSubmit={submitHandler}>
-        <label for="userName">UserName</label>
-        <input id="userName" type="text" onChange={nameChange}></input>
-        <label for="age">Age (Years)</label>
-        <input id="age" type="text" onChange={ageChange}></input>
-        <button type="submit">Add User</button>
+        <label htmlFor="username">UserName</label>
+        <input id="username" type="text" onChange={nameChange}></input>
+        <label htmlFor="age">Age (Years)</label>
+        <input id="age" type="number" onChange={ageChange}></input>
+        <Button type="submit">Add User</Button>
       </form>
     </>
   );
