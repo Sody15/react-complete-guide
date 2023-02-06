@@ -1,0 +1,43 @@
+.popup-overlay {
+    background: rgba(0,0,0,0.5) ;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.popup {
+    padding: 1rem;
+    background-color: white;
+    z-index: 100;
+    position: fixed;  
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    width: 500px;
+    
+}
+
+.popup h2 {
+    background: purple;
+    color: white;
+    margin-top: 0;
+    transform: translate(-1rem, -1rem);
+    width: 100%;
+    padding: 1rem;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.popup p {
+    padding-bottom: 2rem ;
+}
+
+.popup button {
+    float: right;
+}

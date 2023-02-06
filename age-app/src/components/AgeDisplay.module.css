@@ -1,0 +1,15 @@
+.age-display {
+    width: 100%;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 10px;
+    margin-top:2rem;
+}
+.age-display__item {
+    border: 1px solid black;
+    padding: .5rem;
+}
+
+.age-display__item:not(:first-child) {
+    margin-top:.5rem;
+}
