@@ -53,7 +53,6 @@ const AgeForm = (props) => {
   };
 
   const close = () => {
-    console.log("close");
     setError(null);
   };
 
