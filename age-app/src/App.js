@@ -6,10 +6,10 @@ import { useState } from "react";
 function App() {
   const [users, setUsers] = useState([]);
 
-  const addUserHandler = (user) => {
+  const addUserHandler = (userName, age) => {
     setUsers((prevUsers) => [
       ...prevUsers,
-      { ...user, id: Math.random().toString() },
+      { userName, age, id: Math.random().toString() },
     ]);
   };
 

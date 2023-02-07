@@ -1,57 +1,42 @@
 import styles from "./AgeForm.module.css";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Popup from "./Popup/Popup";
 import Button from "./UI/Button";
 
 const AgeForm = (props) => {
-  const [user, setUser] = useState({ userName: "", age: "" });
-  const [error, setError] = useState(null);
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
+
+  const [error, setError] = useState();
 
   const clearForm = () => {
     document.getElementById("username").value = "";
     document.getElementById("age").value = "";
-    setUser({ userName: "", age: "" });
   };
 
   const submitHandler = (event) => {
     event.preventDefault();
 
-    if (user) {
-      if (user.userName.trim().length === 0) {
-        setError({
-          title: "Invalid input",
-          message: "Please enter a valid name and age (non-empty values).",
-        });
-        return;
-      }
-      if (user.age < 1) {
-        setError({
-          title: "Invalid input",
-          message: "Please enter a valid age (>0)",
-        });
-        return;
-      }
-    }
+    const userName = nameInputRef.current.value;
+    const age = ageInputRef.current.value;
 
-    if (user && user.age > 0 && user.userName) {
-      props.onAddUser(user);
-      clearForm();
+    if (userName.trim().length === 0) {
+      setError({
+        title: "Invalid input",
+        message: "Please enter a valid name and age (non-empty values).",
+      });
       return;
     }
-  };
+    if (age < 1) {
+      setError({
+        title: "Invalid input",
+        message: "Please enter a valid age (>0)",
+      });
+      return;
+    }
 
-  const nameChange = (event) => {
-    const userName = event.target.value;
-    setUser((prevState) => {
-      return { ...prevState, userName };
-    });
-  };
-
-  const ageChange = (event) => {
-    const age = event.target.value;
-    setUser((prevState) => {
-      return { ...prevState, age: +age };
-    });
+    props.onAddUser(userName, age);
+    clearForm();
   };
 
   const errorHandler = () => {
@@ -69,9 +54,9 @@ const AgeForm = (props) => {
       )}
       <form className={`${styles["age-form"]}`} onSubmit={submitHandler}>
         <label htmlFor="username">UserName</label>
-        <input id="username" type="text" onChange={nameChange}></input>
+        <input id="username" type="text" ref={nameInputRef}></input>
         <label htmlFor="age">Age (Years)</label>
-        <input id="age" type="number" onChange={ageChange}></input>
+        <input id="age" type="number" ref={ageInputRef}></input>
         <Button type="submit">Add User</Button>
       </form>
     </>
