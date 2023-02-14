@@ -3,6 +3,8 @@ import classes from './CartItem.module.css';
 const CartItem = (props) => {
   const price = `$${props.price.toFixed(2)}`;
 
+  const totalAmount = `$${(props.price * props.amount).toFixed(2)}`;
+
   return (
     <li className={classes['cart-item']}>
       <div>
@@ -16,6 +18,7 @@ const CartItem = (props) => {
         <button onClick={props.onRemove}>−</button>
         <button onClick={props.onAdd}>+</button>
       </div>
+      <p>{totalAmount}</p>
     </li>
   );
 };
