@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './App.css';
 import Cart from './components/Cart/Cart';
-import Checkout from './components/Cart/Checkout';
 import Header from './components/Layout/Header';
 import Meals from './components/Meals/Meals';
 import CartProvider from './store/CartProvider';

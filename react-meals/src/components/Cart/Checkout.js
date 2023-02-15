@@ -8,7 +8,7 @@ const Checkout = (props) => {
     hasError: nameHasError,
     onBlurHandler: onBlurName,
     onChangeHandler: onChangeName,
-  } = useInput((val) => val !== '');
+  } = useInput((val) => val.trim() !== '');
 
   const {
     enteredValue: streetVal,
@@ -16,7 +16,7 @@ const Checkout = (props) => {
     hasError: streetHasError,
     onBlurHandler: onBlurStreet,
     onChangeHandler: onChangeStreet,
-  } = useInput((val) => val !== '');
+  } = useInput((val) => val.trim() !== '');
 
   const {
     enteredValue: postalVal,
@@ -24,7 +24,7 @@ const Checkout = (props) => {
     hasError: postalHasError,
     onBlurHandler: onBlurPostal,
     onChangeHandler: onChangePostal,
-  } = useInput((val) => +val && val.length === 5);
+  } = useInput((val) => +val && val.trim().length === 5);
 
   const {
     enteredValue: cityVal,
@@ -32,11 +32,11 @@ const Checkout = (props) => {
     hasError: cityHasError,
     onBlurHandler: onBlurCity,
     onChangeHandler: onChangeCity,
-  } = useInput((val) => val !== '');
+  } = useInput((val) => val.trim() !== '');
 
   const submitHandler = (event) => {
     event.preventDefault();
-    props.saveMeals({
+    props.onSaveMeals({
       name: nameVal,
       street: streetVal,
       postal: postalVal,
@@ -44,14 +44,14 @@ const Checkout = (props) => {
     });
   };
 
-  let formIsValid = false;
-  if (nameIsValid && streetIsValid && postalIsValid && cityIsValid) {
-    formIsValid = true;
-  }
+  const formIsValid =
+    nameIsValid && streetIsValid && postalIsValid && cityIsValid;
 
   return (
     <form className={classes.form} onSubmit={submitHandler}>
-      <div className={classes.control}>
+      <div
+        className={`${classes.control} ${!nameHasError ? '' : classes.invalid}`}
+      >
         <label htmlFor='name'>Your Name</label>
         <input
           type='text'
@@ -62,7 +62,11 @@ const Checkout = (props) => {
         />
         {nameHasError && <p className={classes.error}>Enter your name.</p>}
       </div>
-      <div className={classes.control}>
+      <div
+        className={`${classes.control} ${
+          !streetHasError ? '' : classes.invalid
+        }`}
+      >
         <label htmlFor='street'>Street</label>
         <input
           type='text'
@@ -73,7 +77,11 @@ const Checkout = (props) => {
         />
         {streetHasError && <p className={classes.error}>Enter your street.</p>}
       </div>
-      <div className={classes.control}>
+      <div
+        className={`${classes.control} ${
+          !postalHasError ? '' : classes.invalid
+        }`}
+      >
         <label htmlFor='postal'>Postal Code</label>
         <input
           type='text'
@@ -86,7 +94,9 @@ const Checkout = (props) => {
           <p className={classes.error}>Enter 5 digit postal code.</p>
         )}
       </div>
-      <div className={classes.control}>
+      <div
+        className={`${classes.control} ${!cityHasError ? '' : classes.invalid}`}
+      >
         <label htmlFor='city'>City</label>
         <input
           type='text'

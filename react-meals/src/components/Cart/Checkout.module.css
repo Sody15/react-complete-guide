@@ -62,3 +62,13 @@
   border-color: #aa0b20;
   background-color: #ffeff1;
 }
+
+button:disabled,
+button:focus:disabled,
+button:hover:disabled,
+button:active:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  color: #666666;
+  cursor: not-allowed;
+}
