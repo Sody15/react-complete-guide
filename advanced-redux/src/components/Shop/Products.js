@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { productsActions } from '../../store/products';
-import { cartActions } from '../../store/cart';
+import { productsActions } from '../../store/products-slice';
+import { cartActions } from '../../store/cart-slice';
 import ProductItem from './ProductItem';
 import classes from './Products.module.css';
 import productsData from '../../dummy-products';

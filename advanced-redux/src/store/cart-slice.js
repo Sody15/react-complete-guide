@@ -1,5 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const updateQuantity = (product, id, isAdd) => {
+  if (product.id === id) {
+    const { quantity, price } = product;
+    const updatedQuanity = isAdd ? quantity + 1 : quantity - 1;
+    return {
+      ...product,
+      quantity: updatedQuanity,
+      total: price * updatedQuanity,
+    };
+  }
+  return product;
+};
+
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
@@ -7,11 +20,8 @@ const cartSlice = createSlice({
     products: [],
   },
   reducers: {
-    showCart(state) {
-      state.showCart = true;
-    },
-    hideCart(state) {
-      state.showCart = false;
+    toggle(state) {
+      state.showCart = !state.showCart;
     },
     addProduct(state, action) {
       const product = action.payload;
@@ -28,29 +38,13 @@ const cartSlice = createSlice({
     updateQuantityAdd(state, action) {
       const id = action.payload;
       state.products = state.products.map((product) => {
-        if (product.id === id) {
-          const { quantity, price } = product;
-          return {
-            ...product,
-            quantity: quantity + 1,
-            total: price * (quantity + 1),
-          };
-        }
-        return product;
+        return updateQuantity(product, id, true);
       });
     },
     updateQuantityRemove(state, action) {
       const id = action.payload;
       state.products = state.products.map((product) => {
-        if (product.id === id) {
-          const { quantity, price } = product;
-          return {
-            ...product,
-            quantity: quantity - 1,
-            total: price * (quantity - 1),
-          };
-        }
-        return product;
+        return updateQuantity(product, id, false);
       });
     },
   },
