@@ -16,10 +16,18 @@ const updateQuantity = (product, id, isAdd) => {
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
+    notification: null,
     showCart: false,
     products: [],
   },
   reducers: {
+    showNotification(state, action) {
+      state.notification = {
+        status: action.payload.status,
+        title: action.payload.title,
+        message: action.payload.message,
+      };
+    },
     toggle(state) {
       state.showCart = !state.showCart;
     },

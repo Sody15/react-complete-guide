@@ -6,7 +6,7 @@ import classes from './Products.module.css';
 import productsData from '../../dummy-products';
 import { useEffect } from 'react';
 
-const Products = (props) => {
+const Products = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
