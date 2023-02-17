@@ -3,62 +3,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
-import { FIREBASE_URL } from './helper/helper';
-import { cartActions } from './store/cart-slice';
 import Notification from './components/UI/Notification';
+import { fetchCartData, sendCartData } from './store/cart-actions';
 
 let isInitial = true;
 
 function App() {
   const dispatch = useDispatch();
-  const cartProducts = useSelector((state) => state.cart.products);
-  const notification = useSelector((state) => state.cart.notification);
+  const cart = useSelector((state) => state.cart);
+  const { products, notification } = cart;
 
   useEffect(() => {
-    const sendCartData = async () => {
-      dispatch(
-        cartActions.showNotification({
-          status: 'pending',
-          title: 'Sending...',
-          message: 'Sending cart data!',
-        })
-      );
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
-      const response = await fetch(FIREBASE_URL + 'cart.json', {
-        method: 'PUT',
-        body: JSON.stringify(cartProducts),
-      }).catch((err) => {
-        throw new Error('Sending cart data failed!');
-      });
-
-      if (!response.ok) {
-        throw new Error('Sending cart data failed!');
-      }
-
-      dispatch(
-        cartActions.showNotification({
-          status: 'success',
-          title: 'Success!',
-          message: 'Send cart data successfully!',
-        })
-      );
-    };
-
+  useEffect(() => {
     if (isInitial) {
       isInitial = false;
       return;
     }
 
-    sendCartData().catch((err) => {
-      dispatch(
-        cartActions.showNotification({
-          status: 'error',
-          title: 'Error!',
-          message: 'Sending cart data failed!',
-        })
-      );
-    });
-  }, [cartProducts, dispatch]);
+    if (cart.changed) {
+      dispatch(sendCartData(products));
+    }
+  }, [products, dispatch, cart.changed]);
 
   return (
     <>
