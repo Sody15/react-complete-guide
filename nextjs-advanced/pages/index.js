@@ -1,8 +1,7 @@
 import Head from 'next/head';
 
-import { MongoClient } from 'mongodb';
-
 import MeetupList from '../components/meetups/MeetupList';
+import { getMeetupsCollection, getMongoClient } from '../util/mongo-util';
 
 const HomePage = (props) => {
   return (
@@ -31,13 +30,8 @@ const HomePage = (props) => {
 
 // Date fetching - Pre-rendering
 export const getStaticProps = async () => {
-  const client = await MongoClient.connect(
-    'mongodb+srv://Sody:Coldplay1%21@cluster0.w9w7glg.mongodb.net/?retryWrites=true&w=majority'
-  );
-
-  const db = client.db();
-
-  const meetupsCollection = db.collection('meetups');
+  const client = await getMongoClient();
+  const meetupsCollection = getMeetupsCollection(client);
 
   const meetups = await meetupsCollection.find().toArray();
 
